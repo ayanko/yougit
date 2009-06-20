@@ -1,0 +1,5 @@
+development:
+  repos_root_dir: "<%= RAILS_ROOT %>/repositories"
+
+cucumber:
+  repos_root_dir: "<%= RAILS_ROOT %>/temp/repositories"
