@@ -17,6 +17,9 @@ module NavigationHelpers
     when /the repository (\w+)/
       "/repositories/#{$1}"
     
+    when /the (\w+) commits page/
+      "/repositories/#{$1}/commits"
+
     # Add more mappings here.
     # Here is a more fancy example:
     #

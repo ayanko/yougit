@@ -126,7 +126,7 @@ end
 
 Then /^I should see list:$/ do |table|
   table.hashes.each do |hash|
-    have_tag("li", :content => hash['name'])
+    response.body.should have_tag("li", :content => hash['name'])
   end
 end
 

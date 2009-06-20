@@ -3,8 +3,8 @@
 <h3>Branches</h3>
 
 <ul>
-  <% @repository.repo.branches.each do |branch| %>
-    <li>branch</li>
+  <% @repository.heads.each do |head| -%>
+    <li><%= head.name %></li>
   <% end -%>
 </ul>
 

@@ -4,7 +4,7 @@ module RepositoryHelpers
   module_function
 
   def create_repo(name)
-    repo = Grit::Repo.init( File.join(AppConfig.repos_root_dir, "#{name}.git") )
+    repo = Repository.create( File.join(AppConfig.repos_root_dir, "#{name}") )
   end
 
   def destroy_repos
