@@ -117,3 +117,16 @@ end
 Then /^I should be on (.+)$/ do |page_name|
   URI.parse(current_url).path.should == path_to(page_name)
 end
+
+Then /^I should see links:$/ do |table|
+  table.hashes.each do |hash|
+    find_link(hash['name'])
+  end
+end
+
+Then /^I should see list:$/ do |table|
+  table.hashes.each do |hash|
+    have_tag("li", :content => hash['name'])
+  end
+end
+

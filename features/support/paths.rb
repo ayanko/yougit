@@ -14,6 +14,9 @@ module NavigationHelpers
     when /the repositories/
       '/repositories'
     
+    when /the repository (\w+)/
+      "/repositories/#{$1}"
+    
     # Add more mappings here.
     # Here is a more fancy example:
     #

@@ -18,4 +18,8 @@ class Repository
     Dir[File.join(AppConfig.repos_root_dir, "*")].map { |path| new(path) }
   end
 
+  def self.find(id)
+    new(File.join(AppConfig.repos_root_dir, "#{id}.git"))
+  end
+
 end

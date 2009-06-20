@@ -1,0 +1,11 @@
+<h2>Welcome to <%= @repository.name.humanize %> repository</h2>
+
+<h3>Branches</h3>
+
+<ul>
+  <% @repository.repo.branches.each do |branch| %>
+    <li>branch</li>
+  <% end -%>
+</ul>
+
+

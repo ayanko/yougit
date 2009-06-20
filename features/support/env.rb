@@ -2,7 +2,6 @@
 ENV["RAILS_ENV"] ||= "cucumber"
 
 require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
-p ENV["RAILS_ENV"]
 require 'cucumber/rails/world'
 
 # Comment out the next line if you don't want Cucumber Unicode support
@@ -24,6 +23,9 @@ end
 
 require 'cucumber/rails/rspec'
 require 'webrat/core/matchers'
+
+Webrat::Session.def_delegators :current_scope, :find_link
+Webrat::Methods.delegate_to_session :find_link
 
 Before do
   RepositoryHelpers.destroy_repos
