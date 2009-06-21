@@ -1,0 +1,12 @@
+development:
+  repos_root_dir: /home/wireless/dev
+  tracker:
+    url: http://www.jira.com/jira
+    login: jira
+    password: 123456
+
+cucumber:
+  repos_root_dir: "<%= RAILS_ROOT %>/tmp/repositories"
+
+test:
+  repos_root_dir: "<%= RAILS_ROOT %>/tmp/repositories"
