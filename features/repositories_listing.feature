@@ -5,13 +5,15 @@ Feature: Listing Git repositories
 
   Scenario: Developer access repo listing
     Given repositories:
-      | name       |
-      | cuke       |
-      | capistrator|
+      | name        |
+      | tomato      |
+      | capistrator |
 
     When I go to the repositories
 
     Then I should see "Repositories"
-    And I should see "cuke"
-    And I should see "capistrator"
+    And I should see links:
+      | name        |
+      | tomato      | 
+      | capistrator |
 

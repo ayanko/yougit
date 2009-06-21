@@ -1,5 +1,59 @@
-<ul>
-  <% @commits.each do |commit| -%>
-    <li><%= commit.id %></li>
+<div><%= link_to "Repository", repositories_path %> <%= @repository.name %></div>
+
+<div>
+  <% form_tag repository_commits_path(@repository), :method => :get do -%>
+    <label for="">Branch</label>
+    <select name="reference" id="reference">
+      <%= options_from_collection_for_select(@repository.heads, :name, :name, params[:reference]) %>
+    </select> 
+
+    <div>
+      <label for="">Include</label>
+      <% 3.times do |i| -%>
+        <select name="include[]" id="include_<%= i %>">
+          <option value=""></option>
+          <%= options_from_collection_for_select(@repository.heads, :name, :name, Array(params[:include])[i]) %>
+        </select> 
+      <% end -%>
+    </div>
+
+    <div>
+      <label for="">Exclude</label>
+      <% 3.times do |i| -%>
+        <select name="exclude[]" id="exclude_<%= i %>">
+          <option value=""></option>
+          <%= options_from_collection_for_select(@repository.heads, :name, :name, Array(params[:exclude])[i]) %>
+        </select> 
+      <% end -%>
+    </div>
+
+    <div>
+      <%= check_box_tag(:no_merges, '1', params[:no_merges]) %><label for="no_merges">No merges</label>
+    </div>
+
+    <%= submit_tag("Show") %>
   <% end -%>
-</ul>
+</div>
+
+<h2>Commit list</h2>
+
+<table>
+  <tr>
+    <th>N</th>
+    <th>Ticket</th>
+    <th>Parents</th>
+    <th>ID</th>
+    <th>Autor</th>
+    <th>Message</th>
+  </tr>
+  <% @commits.each_with_index do |commit, index| -%>
+    <tr>
+      <td><%= index + 1 %></td>
+      <td><%= commit.ticket %></td>
+      <td><%= commit.parents.size if commit.parents.size > 1 %></td>
+      <td><%= commit.id %></td>
+      <td><%= commit.author.name %></td>
+      <td><%=h commit.short_message %></td>
+    </tr>
+  <% end -%>
+</table>

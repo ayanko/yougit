@@ -4,7 +4,7 @@
 
 <ul>
   <% @repository.heads.each do |head| -%>
-    <li><%= head.name %></li>
+    <li><%= link_to head.name, repository_commits_path(@repository, :reference => head) %></li>
   <% end -%>
 </ul>
 

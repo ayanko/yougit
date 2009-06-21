@@ -1,4 +1,6 @@
 class Repository < Grit::Repo
+
+  DEFAULT_REFERENCE = 'master'
   
   # Implement repo creation
   def self.create(path)
@@ -34,6 +36,8 @@ class Repository < Grit::Repo
       File.basename(self.path, ".git") : 
       File.basename(self.working_dir) 
   end
+ 
+  alias :to_param :name
   
   def create_empty_commit(message)
     git.run("", "commit", "", { :allow_empty => true, :m => message }, [])
@@ -46,6 +50,10 @@ class Repository < Grit::Repo
 
   def commits(options = {})
     Commit.list(self, options)
+  end
+
+  def heads
+    Head.find_all(self).sort_by(&:name)
   end
 
 end

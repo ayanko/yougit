@@ -2,6 +2,8 @@ class CommitsController < ApplicationController
   before_filter :find_repository
 
   def index
+    params[:reference] ||= Repository::DEFAULT_REFERENCE
+
     @commits = @repository.commits(params)
 
     respond_to do |format|

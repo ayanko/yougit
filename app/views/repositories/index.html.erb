@@ -1,5 +1,5 @@
 <h2>Repositories</h2>
 
 <% @repositories.each do |repository| -%>
-  <p><%= repository.name %></p>
+  <p><%= link_to repository.name, repository_path(repository) %></p>
 <% end -%>
