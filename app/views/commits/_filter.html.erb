@@ -42,9 +42,9 @@
   <div class="filter-row">
     <%= check_box_tag(:no_merges, '1', params[:no_merges]) %><label for="no_merges">No merges</label>
 
-    <%= check_box_tag(:get_ticket_status, '1', params[:get_ticket_status]) %><label for="no_merges">Get ticket status</label>
+    <%= check_box_tag(:get_ticket_status, '1', params[:get_ticket_status]) %><label for="get_ticket_status">Get ticket status</label>
 
-    <label for="">Group by:</label>
+    <label for="group_by">Group by:</label>
     <select name="group_by" id="group_by">
       <option value=""></option>
       <%= options_for_select CommitsController::ALLOWED_GROUPPING, params[:group_by] -%>
