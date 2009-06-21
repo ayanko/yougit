@@ -1,7 +1,7 @@
 class RepositoriesController < ApplicationController
 
   def index
-    @repositories = Repository.list
+    @repositories = Repository.list.sort_by(&:name)
 
     respond_to do |format|
       format.html 

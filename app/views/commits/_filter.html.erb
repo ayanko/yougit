@@ -1,46 +1,62 @@
-<div><%= link_to "Repository", repositories_path %> <%= @repository.name %></div>
+<% form_tag repository_commits_path(@repository), :method => :get do -%>
 
-<div>
-  <% form_tag repository_commits_path(@repository), :method => :get do -%>
+  <table>
+    <tr>
+      <th>Repository</th>
+      <th>Branch</th>
+      <th>Exclude branch(es)</th>
+      <th>Include branch(es)</th>
+    </tr>
 
-    <div class="filter-row">
-      <label for="">Branch</label>
-      <select name="reference" id="reference">
-        <%= options_from_collection_for_select(@repository.heads, :name, :name, params[:reference]) %>
-      </select> 
+    <tr>
+      <td>
+        <%= @repository.name %>
+      </td>
 
-      <label for="">Exclude</label>
-      <% 2.times do |i| -%>
-        <select name="exclude[]" id="exclude_<%= i %>">
-          <option value=""></option>
-          <%= options_from_collection_for_select(@repository.heads, :name, :name, Array(params[:exclude])[i]) %>
+      <td>
+        <select name="reference" id="reference">
+          <%= options_from_collection_for_select(@repository.heads, :name, :name, params[:reference]) %>
         </select> 
-      <% end -%>
+      </td>
 
-      <label for="">Include</label>
-      <% 2.times do |i| -%>
-        <select name="include[]" id="include_<%= i %>">
-          <option value=""></option>
-          <%= options_from_collection_for_select(@repository.heads, :name, :name, Array(params[:include])[i]) %>
-        </select> 
-      <% end -%>
-      
-    </div>
+      <td>
+        <% 2.times do |i| -%>
+          <select name="exclude[]" id="exclude_<%= i %>">
+            <option value=""></option>
+            <%= options_from_collection_for_select(@repository.heads, :name, :name, Array(params[:exclude])[i]) %>
+          </select> 
+        <% end -%>
+      </td>
 
-    <div class="filter-row">
-      <%= check_box_tag(:no_merges, '1', params[:no_merges]) %><label for="no_merges">No merges</label>
-      
-      <%= check_box_tag(:get_ticket_status, '1', params[:get_ticket_status]) %><label for="no_merges">Get ticket status</label>
+      <td>
+        <% 2.times do |i| -%>
+          <select name="include[]" id="include_<%= i %>">
+            <option value=""></option>
+            <%= options_from_collection_for_select(@repository.heads, :name, :name, Array(params[:include])[i]) %>
+          </select> 
+        <% end -%>
+      </td>
+    </tr>
+  </table>
 
-      <label for="">Group by:</label>
-      <select name="group_by" id="group_by">
-        <option value=""></option>
-        <%= options_for_select CommitsController::ALLOWED_GROUPPING, params[:group_by] -%>
-      </select>
+  <div class="filter-row">
+    <%= check_box_tag(:no_merges, '1', params[:no_merges]) %><label for="no_merges">No merges</label>
 
-      <%= submit_tag("Show", :class => 'big-button') %>
-    </div>
+    <%= check_box_tag(:get_ticket_status, '1', params[:get_ticket_status]) %><label for="no_merges">Get ticket status</label>
 
-  <% end -%>
-</div>
+    <label for="">Group by:</label>
+    <select name="group_by" id="group_by">
+      <option value=""></option>
+      <%= options_for_select CommitsController::ALLOWED_GROUPPING, params[:group_by] -%>
+    </select>
+
+    <label for="per_page">Per page:</label>
+    <select name="per_page" id="per_page">
+      <%= options_for_select CommitsController::ALLOWED_PAR_PAGE, params[:per_page] -%>
+    </select>
+
+    <%= submit_tag("Show", :class => 'big-button') %>
+  </div>
+
+<% end -%>
 

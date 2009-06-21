@@ -1,61 +1,53 @@
-class Grit::Commit
-  def merge?
-    self.parents.size > 1
-  end
+require 'will_paginate/collection'
 
-  def color
-    "#" + self.id[0,6]
-  end
-
-  def ticket
-    @ticket ||= Ticket.for_commit(self)
-  end
-
-  def ticket_number
-    ticket && ticket.number || "Unknown"
-  end
-  
-  def ticket_key
-    ticket && ticket.key || "Unknown"
-  end
-  
-  def ticket_status
-    ticket && ticket.status || "Unknown"
-  end
-
-  def author_name
-    author.name
-  end
-  
-  def tags
-    @tags ||= @repo.tags.select { |t| t.commit.id == self.id }
-  end
-  
-  def tag_names
-    self.tags.map(&:name)
-  end
-end
+Grit::Commit.send(:include, CommitMethods)
 
 class Commit < Grit::Commit
 
-  LIST_LIMIT = 20
+  def self.list(repository, options, conditions)
+    data = raw_list_data(repository, {
+      :pretty     => 'raw',
+      :limit      => options[:limit],
+      :offset     => options[:offset]
+    }, conditions)
 
-  def self.list(repository, options)
-    opts = { 
-      :pretty    => 'raw',
-      :max_count => options[:limit]  || LIST_LIMIT,
-      :skip      => options[:offset] || 0
-    }
-    opts.merge!(:no_merges => true) if options[:no_merges] == '1'
-    
+    self.list_from_string(repository, data)
+  end
+
+  def self.count(repository, options, conditions)
+    data = raw_list_data(repository, {}, conditions)
+
+    data.split("\n").size
+  end
+
+  def self.paginate(repository, options, conditions)
+    WillPaginate::Collection.create(options[:page], options[:per_page]) do |pager|
+      result = self.list(repository, options.merge({
+        :limit  => pager.per_page, 
+        :offset => pager.offset
+      }), conditions)
+      pager.replace(result)
+
+      pager.total_entries = self.count(repository, {}, conditions) unless pager.total_entries
+    end
+  end
+
+  private
+
+  def self.raw_list_data(repository, options, conditions)
+    opts = {}
     args = []
-    args << (options[:reference] || "master")
-    args += Array(options[:include]) unless options[:include].blank?
-    args += ["--not"] + Array(options[:exclude]) unless options[:exclude].blank?
 
-    output = repository.git.run("", "rev-list", "", opts, args)
+    opts.merge!(:pretty    => options[:pretty]) unless options[:pretty].blank?
+    opts.merge!(:max_count => options[:limit])  unless options[:limit].blank?
+    opts.merge!(:skip      => options[:offset]) unless options[:offset].blank?
 
-    self.list_from_string(repository, output)
+    opts.merge!(:no_merges => true) if conditions[:no_merges] == '1'
+    args << (conditions[:reference] || "master")
+    args += Array(conditions[:include]) unless conditions[:include].blank?
+    args += ["--not"] + Array(conditions[:exclude]) unless conditions[:exclude].blank?
+
+    repository.git.run("", "rev-list", "", opts, args)
   end
 
 end

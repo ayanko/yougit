@@ -1,5 +1,7 @@
 <h2>Repositories</h2>
 
+<ul>
 <% @repositories.each do |repository| -%>
-  <p><%= link_to repository.name, repository_path(repository) %></p>
+  <li><%= link_to repository.name, repository_commits_path(repository) %></li>
 <% end -%>
+</ul>

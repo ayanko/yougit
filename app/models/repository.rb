@@ -51,14 +51,13 @@ class Repository < Grit::Repo
   def commits(options = {})
     Commit.list(self, options)
   end
+  
+  def paginate(options = {})
+    Commit.paginate(self, options)
+  end
 
   def heads
     Head.find_all(self).sort_by(&:name)
-  end
-
-  def tags
-    output = git.run("", "show-ref", "", { :tags => true, :dereference => true }, [])
-    puts output
   end
 
 end

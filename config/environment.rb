@@ -19,9 +19,10 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
-  config.gem "grit",        :version => '1.1.1'
-  config.gem "soap4r",      :version => '1.5.8', :lib => 'soap/soap'
-  config.gem "remi-jira4r", :version => '1.0.0', :lib => "jira4r", :source => "http://gems.github.com"
+  config.gem "grit",                 :version => '1.1.1'
+  config.gem "soap4r",               :version => '1.5.8',  :lib => 'soap/soap'
+  config.gem "remi-jira4r",          :version => '1.0.0',  :lib => "jira4r",        :source => "http://gems.github.com"
+  config.gem 'mislav-will_paginate', :version => '2.3.11', :lib => 'will_paginate', :source => "http://gems.github.com"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -42,4 +43,6 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
 end
+
+require "will_paginate" 
 

@@ -1,12 +1,18 @@
 class CommitsController < ApplicationController
   before_filter :find_repository
 
-  ALLOWED_GROUPPING = %w(ticket_key ticket_status author_name)
+  ALLOWED_GROUPPING = %w(ticket_key author_name)
+  ALLOWED_PAR_PAGE = %w(20 30 50 100)
 
   def index
     params[:reference] ||= Repository::DEFAULT_REFERENCE
+    params[:per_page] = ALLOWED_PAR_PAGE[0] unless ALLOWED_PAR_PAGE.include?(params[:per_page])
 
-    @commits = @repository.commits(params)
+    @commits = Commit.paginate(@repository, {
+      :per_page  => params[:per_page],
+      :page      => params[:page] || 1,
+    }, params)
+
     if params[:get_ticket_status]
       @tracker = Tracker.new
       @tracker.update_commits(@commits)
@@ -32,6 +38,10 @@ class CommitsController < ApplicationController
   end
 
   protected
+
+  def find_repositories
+    @repositories = Repository.list
+  end
 
   def find_repository
     @repository = Repository.find(params[:repository_id])

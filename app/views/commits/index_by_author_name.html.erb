@@ -1,6 +1,6 @@
 <%= render :partial => 'filter' %>
 
-<h2>Commit list by ticket number</h2>
+<h2>Commit list by author name</h2>
 
 <table class="grouped-commits">
   <tr>
@@ -20,7 +20,7 @@
           <td rowspan="<%= commits.size %>"><%= author_name %></td>
           <td rowspan="<%= commits.size %>"><%= commits.size %></td>
         <% end -%>
-        <td><%= link_to_if commit.ticket.url, commit.ticket_key, commit.ticket.url %></td>
+        <td><%= link_to commit.ticket_key, commit.ticket.url if commit.ticket %></td>
         <td class="<%= commit.ticket_status %>"><%= commit.ticket_status %></td>
         <td><%= commit.id %></td>
         <td><%=h commit.short_message %></td>
@@ -29,3 +29,5 @@
 
   <% end -%>
 </table>
+
+<%= render :partial => 'paginator' %>

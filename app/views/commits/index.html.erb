@@ -8,19 +8,20 @@
     <th>Ticket</th>
     <th>Status</th>
     <th>ID</th>
-    <th>Tags</th>
     <th>Autor</th>
     <th>Message</th>
   </tr>
   <% @commits.each_with_index do |commit, index| -%>
     <tr class="<%= commit.ticket_status %>" >
-      <td><%= index + 1 %></td>
+      <td><%= @commits.offset + index + 1 %></td>
       <td><%= link_to(commit.ticket.key, commit.ticket.url) if commit.ticket %></td>
       <td><%= commit.ticket_status %></td>
       <td><%= commit.id %></td>
-      <td><%#= commit.tags.map(&:name).join("<br />") %></td>
       <td><%= commit.author.name %></td>
       <td><%=h commit.short_message %></td>
     </tr>
   <% end -%>
 </table>
+
+
+<%= render :partial => 'paginator' %>
