@@ -18,7 +18,6 @@ class Repository < Grit::Repo
     Dir[File.join(AppConfig.repos_root_dir, "*")].select { 
       |f| File.directory?(f) 
     }.map { |path| 
-      p path
       begin
         new(path)
       rescue Grit::InvalidGitRepositoryError
