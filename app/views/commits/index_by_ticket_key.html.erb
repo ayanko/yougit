@@ -1,0 +1,33 @@
+<%= render :partial => 'filter' %>
+
+<h2>Commit list by ticket number</h2>
+
+<table class="grouped-commits">
+  <tr>
+    <th>Ticket</th>
+    <th>Status</th>
+    <th>Commits</th>
+    <th>ID</th>
+    <th>Autor</th>
+    <th>Message</th>
+  </tr>
+
+  <% @grouped_commits.each do |ticket_key, commits| -%>
+
+    <% status = commits.first.ticket_status -%>
+
+    <% commits.each_with_index do |commit, index| -%>
+      <tr class="<%= status %>">
+        <% if index.zero? -%>
+          <td rowspan="<%= commits.size %>"><%= ticket_key %></td>
+          <td rowspan="<%= commits.size %>"><%= status %></td>
+          <td rowspan="<%= commits.size %>"><%= commits.size %></td>
+        <% end -%>
+        <td><%= commit.id %></td>
+        <td><%= commit.author.name %></td>
+        <td><%=h commit.short_message %></td>
+      </tr>
+    <% end -%>
+
+  <% end -%>
+</table>

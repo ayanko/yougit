@@ -56,4 +56,9 @@ class Repository < Grit::Repo
     Head.find_all(self).sort_by(&:name)
   end
 
+  def tags
+    output = git.run("", "show-ref", "", { :tags => true, :dereference => true }, [])
+    puts output
+  end
+
 end

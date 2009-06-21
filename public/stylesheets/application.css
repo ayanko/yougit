@@ -1,0 +1,49 @@
+.big-button {
+  padding:0px 20px;
+  margin: 0 0 0 20px;
+}
+
+.filter-row {
+  margin: 20px;
+}
+
+table.grouped-commits, table.commits {
+  border-collapse: collapse;
+}
+
+table.grouped-commits tr th, table.commits tr th {
+  border: 1px #ccc solid;
+  color: #000;
+  background-color: #ccc;
+  padding: 2px;
+}
+
+table.grouped-commits tr td, table.commits tr td {
+  border: 1px #ccc solid;
+  padding: 2px;
+  color: #000;
+}
+
+.Open {
+  background-color: #FF0000;
+}
+
+.InProgress {
+  background-color: #FF3300;
+}
+
+.Reopened {
+  background-color: #0000FF;
+}
+
+.Resolved {
+  background-color: #FFFF00;
+}
+
+.Closed {
+  background-color: #006633;
+}
+
+.Unknown  {
+  background-color: #FFFFFF;
+}
