@@ -28,7 +28,8 @@ class Repository < Grit::Repo
   end
 
   def self.find(id)
-    new(File.join(AppConfig.repos_root_dir, "#{id}"))
+    path = File.join(AppConfig.repos_root_dir, "#{id}")
+    new(File.exists?(path) ? path : "#{path}.git")
   end
 
   def name
